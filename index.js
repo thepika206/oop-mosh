@@ -1,26 +1,27 @@
-// There are two ways to create the circle object
-
-
-// Factory Function
-function createCircle(radius) {
-    return {
-        radius,
-        draw: () => {
-            console.log('draw')
-        }
-    }
-}
-
-const circle = createCircle(1)
-
-// Constructor function
-
+//Abstraction hides the details and complexity and only exposes the essentials
 function Circle(radius) {
+    // private props and methods
+    let defaultLocation = { x: 0, y: 0};
+    
+
+
+    let computeOptimumLocation = function(factor) {
+        
+    }
+
+    // public props and methods
     this.radius = radius;
-    this.draw = () => {
+
+
+
+
+    this.draw = function() {
+        computeOptimumLocation(0.1)
+
         console.log('draw')
     }
 }
 
-// important, without the new key word, reference to this is the window object or global object.
-const another = new Circle(1);
+const circle = new Circle(10)
+
+// circle.computeOptimumLocation -> undefined
