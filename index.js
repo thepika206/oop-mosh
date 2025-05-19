@@ -1,40 +1,44 @@
-//Abstraction hides the details and complexity and only exposes the essentials
-function Circle(radius) {
+function StopWatch() {
     // private props and methods
-    let defaultLocation = { x: 0, y: 0};
-
-    let computeOptimumLocation = function(factor) {
-        
-    }
+    let isStarted = false;
+    let duration = 0;
+    let timerId = null;
 
     // public props and methods
-    this.radius = radius;
-
-    this.getDefaultLocation = function() {
-        return defaultLocation
+    this.start = () => {
+        if (isStarted) {
+            throw new Error('already started')
+        } else {
+            isStarted = !isStarted;
+            timerId = setInterval(
+                () => {
+                    duration += 1;
+                },
+                100
+            )
+            
+        }
     }
 
-    // define getter and setter
-    Object.defineProperty(this, 'defaultLocation', {
+    this.stop = () => {
+        if (!isStarted) {
+            throw new Error('already stopped')
+        } else {
+            isStarted = !isStarted
+            clearInterval(timerId)
+        }
+    }
+
+    this.reset = () => {
+        duration = 0
+    }
+
+    // define getter for duration
+    Object.defineProperty(this, 'duration', {
         get: function() {
-            return defaultLocation
-        },
-        set: function(value) {
-            if (!value.x || !value.y) {
-                throw new Error('Invalid Location.');
-            }
-            defaultLocation = value;
-        } 
+            return `time: ${duration * 0.1}`
+        }
     })
-
-    this.draw = function() {
-        computeOptimumLocation(0.1)
-
-        console.log('draw')
-    }
 }
 
-const circle = new Circle(10)
-circle.defaultLocation // {x:1, y:1}
-circle.defaultLocation = {x:2, y:2} // {x:2, y:2}
-circle.defaultLocation = 1;  // error invalid location
+const sw = new StopWatch
